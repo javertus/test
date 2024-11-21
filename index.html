@@ -197,14 +197,14 @@ footer {
         <h2>Sepetiniz</h2>
         <ul id="cart-items"></ul>
         <label for="address-input">Adresinizi Yazınız :</label>
-        <input type="text" id="address-input" placeholder="Enter your address" />
+        <input type="text" id="address-input" placeholder="Adresinizi yazın" />
         <p><strong>Toplam Fiyat: ₺<span id="total-price">0.00</span></strong></p>
         <button id="place-order-btn" onclick="placeOrder()">Sipariş Ver (WhatsApp)</button>
     </div>
     <footer>
-        <p>&copy; Fast Food One Bayır Şubesi. Kampanyalarımız sadece Öğrencilere, lojmanlara ve iş yerlerine geçerlidir.</p>
-        <a href="https://www.instagram.com/fast_food_one_5/" target="_blank">
-            <img src="path-to-your-instagram-icon.png" alt="Instagram" style="width: 40px; height: 40px;"/>
+        <p>&copy; Fast Food One Bayır Şubesi. Kampanyalarımız sadece Öğrencilere, lojmanlara ve iş yerlerine geçerlidir. Siparişiniz görülmedi ise WhatsApp'tan arayabilirsiniz.</p>
+        <a href="https://www.instagram.com/fast_food_one_bayir/" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png"Instagram" style="width: 40px; height: 40px;"/>
     </footer>
     <script>
 // Menu Items Array
@@ -225,7 +225,7 @@ const menuItems = [
     { name: "Fırında İkili Döner", price: "100₺", image: "images/döner.jpg" },
     { name: "Ciğer Kavurma", price: "100₺", image: "images/kavurma.jpg" },
     { name: "ZURNA Ciğer Kavurma", price: "125₺", image: "images/zurnakavurma.jpg" },
-    { name: "Tavuk Dürüm", price: "100₺", image: "images/tavukdürüm.jpg" },
+    { name: "Tavuk Dürüm", price: "100₺", image: "https://zervanocakbasi.dslink.co/resimler/urunler/594-tavuk-durum.jpg" },
     { name: "Baba Dürüm", price: "125₺", image: "images/babadürüm.jpg" },
     { name: "ZURNA Tavuk Dürüm", price: "125₺", image: "images/zurnatavuk.jpg" },
     { name: "Hatay Usülü Döner", price: "100₺", image: "images/hatay.jpg" },
@@ -331,7 +331,7 @@ function placeOrder() {
     const phoneNumber = "5421954329"; // Replace with the shop's WhatsApp number
     const message = cart.map(item => `${item.name} - ${item.price}`).join("\n");
     const orderMessage = `\n\nAdresim: ${address} - `;
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("Kolay Gelsin, Siparişim bunlardır:\n" + message + orderMessage)}`;
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("Kolay Gelsin, Siparişim bu şekilde:\n" + message + orderMessage)}`;
     
     window.location.href = whatsappURL;
 }
