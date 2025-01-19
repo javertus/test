@@ -200,7 +200,7 @@
     <script>
         const REAL_USERNAME = 'admin';
         const REAL_PASSWORD = 'MPPT';
-
+//buraya bakacağını adım gibi biliyordum. gizlimiz saklımız yok :)
         const hiddenLoginButton = document.getElementById('hiddenLoginButton');
         const afterLogin = document.getElementById('afterLogin');
         const infoDisplay = document.getElementById('infoDisplay');
@@ -219,7 +219,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const chars = "EKO01";
             const fontSize = 14;
             const columns = canvas.width/fontSize;
             const drops = [];
@@ -292,6 +292,7 @@
                 case 'info8':
                     infoContent = '["https://www.youtube.com/shorts/YPz31N24IiM : 3 kişilik bisiklet" videosu: Bu video tam bir altın madeni. QR kodun içinde herhangi bir şifreleme olmaksızın indirilebilir bir model bulunuyor. Bu modeli kullanarak EKO01’in davranışlarını analiz edebilir ve rakiplerimizin bilgisayarlarını kontrol altına alacak virüsleri geliştirmemize yardım edecek iyileştirmeler yapabiliriz!]';
                     break;
+                    //madem buradasın, sana bir ipucu vereyim. ZERO ONE müzik videosunda bir şifre var ve hala kimse çözemedi.
             }
 
             infoDisplay.textContent = infoContent;
