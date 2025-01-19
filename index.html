@@ -2,345 +2,300 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Food ONE Bayır</title>
-     <style>
-body {
-    font-family: Bahnschrift;
-    margin: 0;
-    padding: 0;
-    background-color: #910000;
-}
+    <title>MPPT tatlı developerlar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-header {
-    background-color: #b89d04;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    position: relative;
-}
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(45deg, #37b348, #2d8e3a);
+            color: #333;
+            transition: all 0.5s;
+            min-height: 100vh;
+        }
 
-#cart-icon {
-    position: fixed; /* Make it fixed so it stays in place */
-    top: 20px;
-    right: 20px;
-    z-index: 1100; /* Layer it above the cart panel */
-    cursor: pointer;
-    font-size: 20px;
-    background: white;
-    color: #927c00;
-    padding: 5px 10px;
-    border-radius: 50px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        .container {
+            text-align: center;
+            padding: 50px;
+            animation: fadeIn 1s ease-in;
+        }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: titleFloat 3s ease-in-out infinite;
+        }
 
-#cart-count {
-    background: red;
-    color: rgb(255, 255, 255);
-    padding: 2px 6px;
-    border-radius: 50%;
-    margin-left: 5px;
-}
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
 
-main {
-    padding: 20px;
-    padding-bottom: 500px;
-}
+        .login-area {
+            margin: 20px auto;
+            max-width: 350px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: scale(1);
+            transition: transform 0.3s;
+        }
 
+        .login-area:hover {
+            transform: scale(1.02);
+        }
 
-#menu-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
 
-.menu-item {
-    background-color: rgb(189, 176, 0);
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
+        .input-field:focus {
+            border-color: #37b348;
+            box-shadow: 0 0 10px rgba(55, 179, 72, 0.3);
+            outline: none;
+        }
 
-.menu-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
+        #loginButton, #hiddenLoginButton {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #008b3a, #00a344);
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
 
-.menu-item h3 {
-    margin: 10px 0;
-    font-size: 18px;
-}
+        #hiddenLoginButton {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 5px;
+            opacity: 0.7;
+        }
 
-.menu-item p {
-    margin: 5px 0;
-    font-size: 16px;
-    color: #555;
-}
+        #loginButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
 
-.add-to-cart-btn {
-    background-color: #a00000;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
+        body.dark {
+            background: linear-gradient(45deg, #0a0a0a, #1a1a1a);
+            color: #0f0;
+        }
 
-.add-to-cart-btn:hover {
-    background-color: #580000;
-}
+        .dark h1 {
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0;
+        }
 
-#cart-panel {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 300px;
-    height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease;
-    padding: 20px;
-    z-index: 1000; /* Keep it under the cart icon */
-    display: flex;
-    flex-direction: column;
-}
+        .dark .info-button {
+            background: rgba(0, 255, 0, 0.1);
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
 
-#cart-panel.active {
-    right: 0;
-}
+        .dark .info-button:hover {
+            background: rgba(0, 255, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+        }
 
-#cart-items li {
-    margin-bottom: 10px;
-    font-size: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-/* ADRES SÖYLE */
-#address-input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px auto;
+            max-width: 1200px;
+            padding: 20px;
+        }
 
-#address-input:focus {
-    border-color: #ff5722; /* Highlight border color when focused */
-}
-.remove-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-.remove-btn:hover {
-    background-color: darkred;
-}
-#cart-items li {
-    margin-bottom: 10px;
-    font-size: 16px;
-}
+        #infoDisplay {
+            margin-top: 30px;
+            font-size: 1.2em;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #0f0;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            animation: glowPulse 2s infinite;
+            color: #0f0;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-#place-order-btn {
-    background-color: #ff5722;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-}
-#total-price {
-    font-weight: bold;
-    font-size: 18px;
-}
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 0, 0.4); }
+        }
 
-footer {
-    position: fixed;   /* Fix it to the bottom */
-    bottom: 0;         /* Align it at the bottom of the page */
-    left: 50%;         /* Center it horizontally */
-    transform: translateX(-50%); /* Fine-tune to exactly center it */
-    background-color: #b89d04;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    width: 100%; /* Ensure it spans the full width of the page */
-    font-size: 14px;
-    z-index: 1000;
-}
+        .hidden {
+            display: none;
+        }
 
-  </style>
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
 </head>
-<body >
-    <header>
-        <h1>Fast Food One Bayır Şubesi</h1>
-        <div id="cart-icon" onclick="toggleCart()">
-            🛒 <span id="cart-count">Sepete git</span>
+<body>
+    <div class="container">
+        <h1 id="title">MPPT Yapay Zeka Fine Tuning Ekibi</h1>
+        
+        <div id="fakeLoginArea" class="login-area">
+            <input type="text" placeholder="Kullanıcı Adı" class="input-field">
+            <input type="password" placeholder="Şifre" class="input-field">
+            <button id="loginButton">Giriş Yap</button>
         </div>
-    </header>
-    <main>
-        <div id="menu-container"></div>
-    </main>
-    <div id="cart-panel">
-        <h2>Sepetiniz</h2>
-        <ul id="cart-items"></ul>
-        <label for="address-input">Adresinizi Yazınız :</label>
-        <input type="text" id="address-input" placeholder="Adresinizi yazın" />
-        <p><strong>Toplam Fiyat: ₺<span id="total-price">0.00</span></strong></p>
-        <button id="place-order-btn" onclick="placeOrder()">Sipariş Ver (WhatsApp)</button>
+
+        <button id="hiddenLoginButton">.</button>
+
+        <div id="afterLogin" class="hidden">
+            <h1>Giriş başarılı, MPPT'ye hoşgeldin.</h1>
+            <div class="button-grid">
+                <button class="info-button" onclick="showInfo('info1')">Bulaşık Yıkama Videosu</button>
+                <button class="info-button" onclick="showInfo('info2')">ChatGPT Discord Entegre videosu</button>
+                <button class="info-button" onclick="showInfo('info3')">"İnterneti İndirdim" Videosu</button>
+                <button class="info-button" onclick="showInfo('info4')">"Kendi yaptığım bisiklet" videosu</button>
+                <button class="info-button" onclick="showInfo('info5')">Kablolu kulaklığı kablosuza dönüştürme videosu</button>
+                <button class="info-button" onclick="showInfo('info6')">Dünyanın en ortalama ışığı videosu</button>
+                <button class="info-button" onclick="showInfo('info7')">Davul kiti yapımı videosu</button>
+                <button class="info-button" onclick="showInfo('info8')">3 Kişilik bisiklet videosu</button>
+            </div>
+            <div id="infoDisplay"></div>
+        </div>
     </div>
-   <footer>
-    <p style="display: inline;">&copy; Fast Food One Bayır Şubesi. Kampanyalarımız sadece Öğrencilere, lojmanlara ve iş yerlerine geçerlidir. Siparişiniz görülmedi ise WhatsApp'tan arayabilirsiniz.</p>
-    <a href="https://www.instagram.com/fast_food_one_bayir/" target="_blank" style="display: inline;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1024px-Instagram_icon.png" alt="Instagram" style="width: 25px; height: 25px; margin-left: 5px; vertical-align: middle;">
-    </a>
-</footer>
+
     <script>
-// Menu Items Array
-const menuItems = [
-    { name: "Karışık Pizza Büyük Boy", price: "125₺", image: "https://i.ibb.co/LPZJkMD/image-2024-11-21-142845923.png" },
-    { name: "Ton Balıklı Pizza Büyük Boy", price: "125₺", image: "images/pizza2.jpg" },
-    { name: "Margarita Pizza Büyük Boy", price: "125₺", image: "images/pizza3.jpg" },
-    { name: "Chicken Pizza Büyük Boy", price: "125₺", image: "images/pizza4.jpg" },
-    { name: "Vejeteryan Pizza Büyük Boy", price: "125₺", image: "images/pizza5.jpg" },
-    { name: "Sucuklu Pizza Büyük Boy", price: "125₺", image: "images/pizza6.jpg" },
-    { name: "Kavurmalı Pizza Büyük Boy", price: "200₺", image: "images/pizza7.jpg" },
-    { name: "Pastırmalı Pizza Büyük Boy", price: "200₺", image: "images/pizza8.jpg" },
+        const REAL_USERNAME = 'admin';
+        const REAL_PASSWORD = 'MPPT';
 
-    { name: "Fırında İkili Patso", price: "100₺", image: "images/patso.jpg" },
-    { name: "Fırında İkili Kumru", price: "100₺", image: "images/kumru.jpg" },
-    { name: "Fırında İkili Yengen", price: "100₺", image: "images/yengen.jpg" },
-    { name: "Fırında İkili Tost", price: "100₺", image: "images/tost.jpg" },
-    { name: "Fırında İkili Döner", price: "100₺", image: "images/döner.jpg" },
-    { name: "Ciğer Kavurma", price: "100₺", image: "images/kavurma.jpg" },
-    { name: "ZURNA Ciğer Kavurma", price: "125₺", image: "images/zurnakavurma.jpg" },
-    { name: "Tavuk Dürüm", price: "100₺", image: "https://zervanocakbasi.dslink.co/resimler/urunler/594-tavuk-durum.jpg" },
-    { name: "Baba Dürüm", price: "125₺", image: "images/babadürüm.jpg" },
-    { name: "ZURNA Tavuk Dürüm", price: "125₺", image: "images/zurnatavuk.jpg" },
-    { name: "Hatay Usülü Döner", price: "100₺", image: "images/hatay.jpg" },
-    { name: "Hatay Usülü ZURNA Döner", price: "125₺", image: "images/hatayzurna.jpg" }, 
-    { name: "Ekmek Arası Köri Soslu Tavuk", price: "125₺", image: "images/köritavuk.jpg" },
-    { name: "Hatay Usülü ZURNA Döner", price: "125₺", image: "images/hatayzurna.jpg" },
-    { name: "Ayran", price: "15₺", image: "https://cdn.cimri.io/market/260x260/yorukoglu-200-ml-ayran-_306855.jpg" }, 
-    { name: "Kola - Küçük", price: "40₺", image: "https://cdn.mediacat.com/uploads/2023/04/pepsi-yeni-marka-kimligi.jpg" },
-    { name: "Kola - 1 Litre", price: "50₺", image: "https://images.migrosone.com/sanalmarket/product/08010800/8010800-257ff7-1650x1650.jpg" },
-    { name: "Su", price: "10₺", image: "https://aquamizu.com.tr/wp-content/uploads/2023/03/f985fe36-6811-46e0-85f9-3075e1f7914f.jpg" },
+        const hiddenLoginButton = document.getElementById('hiddenLoginButton');
+        const afterLogin = document.getElementById('afterLogin');
+        const infoDisplay = document.getElementById('infoDisplay');
+        const fakeLoginArea = document.getElementById('fakeLoginArea');
 
-    // Add the remaining items here...
-];
+        document.getElementById('loginButton').addEventListener('click', function() {
+            alert('Erişim Reddedildi: Sunucularımız şu anda devre dışı.');
+        });
 
-let cart = [];
+        function createMatrixRain() {
+            const canvas = document.createElement('canvas');
+            canvas.classList.add('matrix-bg');
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
 
-// Populate Menu
-function populateMenu() {
-    const menuContainer = document.getElementById('menu-container');
-    menuItems.forEach((item, index) => {
-        const menuItem = document.createElement('div');
-        menuItem.className = 'menu-item';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-        menuItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
-            <h3>${item.name}</h3>
-            <p>Fiyat: ${item.price}</p>
-            <button class="add-to-cart-btn" onclick="addToCart(${index})">Sepete Ekle</button>
-        `;
-        menuContainer.appendChild(menuItem);
-    });
-}
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const fontSize = 14;
+            const columns = canvas.width/fontSize;
+            const drops = [];
 
-// Sepete ekle
-function addToCart(index) {
-    const item = menuItems[index];
-    cart.push(item);
-    updateCart();
-}
+            for(let x = 0; x < columns; x++)
+                drops[x] = 1;
 
-// Remove from Cart
-function removeFromCart(index) {
-    cart.splice(index, 1); // Remove item from the cart
-    updateCart(); // Update the display after removal
-}
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#004000';
+                ctx.font = fontSize + 'px monospace';
 
-// Toggle Cart Panel
-function toggleCart() {
-    const cartPanel = document.getElementById('cart-panel');
-    cartPanel.classList.toggle('active');
+                for(let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+                    
+                    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+                        drops[i] = 0;
+                    
+                    drops[i]++;
+                }
+            }
 
-    // Adjust the position of the cart panel
-    if (cartPanel.classList.contains('active')) {
-        cartPanel.style.right = '0'; // Slide in
-    } else {
-        cartPanel.style.right = '-300px'; // Slide out
-    }
-}
+            setInterval(draw, 33);
+        }
 
+        hiddenLoginButton.addEventListener('click', function() {
+            const username = prompt('Gerçek kullanıcı adını giriniz:');
+            const password = prompt('Şifreyi giriniz:');
 
-// Update Cart Display
-function updateCart() {
-    const cartItems = document.getElementById('cart-items');
-    const totalPriceElem = document.getElementById('total-price');
+            if(username === REAL_USERNAME && password === REAL_PASSWORD) {
+                document.body.classList.add('dark');
+                createMatrixRain();
+                fakeLoginArea.classList.add('hidden');
+                document.getElementById('title').classList.add('hidden');
+                hiddenLoginButton.classList.add('hidden');
+                afterLogin.classList.remove('hidden');
+            } else {
+                alert('Yetkisiz erişim tespit edildi ve veritabanı sunucudan silindi. Lütfen bir MPPT üyesi ile iletişime geçin.');
+            }
+        });
 
-    // Clear current cart items
-    cartItems.innerHTML = '';
+        function showInfo(infoType) {
+            let infoContent = '';
 
-    let totalPrice = 0;
-    
-    // Generate cart items list
-    cart.forEach((item, index) => {
-        const cartItem = document.createElement('li');
-        cartItem.innerHTML = `
-            ${item.name} - ${item.price} 
-            <button class="remove-btn" onclick="removeFromCart(${index})">Sepetten Çıkar</button>
-        `;
-        cartItems.appendChild(cartItem);
-        totalPrice += parseFloat(item.price.replace('$', ''));
-    });
+            switch(infoType) {
+                case 'info1':
+                    infoContent = 'https://www.youtube.com/shorts/ZLXsOZ2s4M8 : Bu videodaki QR kod, 2016 yılından kalma bir youtube videosuna yönlendiriyor. Video normal bir video, ancak açıklaması, videonun kendisi ile uyuşmuyor.';
+                    break;
+                case 'info2':
+                    infoContent = 'https://www.youtube.com/shorts/nhYD4F33nQs : Bu video, kullanıcının yapmış olduğu potansiyel bir hatayı gün yüzüne çıkarıyor. TEORİ: Kullanıcı, 35 saattir sesli konuşmada olduğu için ChatGPT, kullanıcı uyurken sesli komutlar aracılığı ile bilgisayara erişim kazanıyor ve Ekonun şiddetli gelişmesi, bununla başlıyor.';
+                    break;
+                case 'info3':
+                    infoContent = 'https://www.youtube.com/shorts/lB7tE0Pz-R8 : Bu video, ilerleyen sorunların gün yüzüne çıkmaya başladığı video. Kullanıcının flash belleğinde, EKO,EVIL EKO, gibi dosyalar mevcut. Bu, istenen sonuçları vermeyen bir Fine tuned model varlığını gösteriyor. Bu videoyu daha da önemli kılan şey, QR kod okutulduğunda oldukça rahatsız edici bir videoya yönlendiriyor olması. Kullanıcı, Bir "MANGAL YAKAR" yapıyor ve bunu kullanırken videoya alıyor. video boyunca bozulmalar meydana geliyor ve en sonda ses tamamen bozuluyor. Burda bozulan ses aslında bir Spectrogram. Ve bu spectrogram burda gördüğünüz şekilde çözümleniyor: *image goes here* Bu bariz bir şaka, ancak önceki videolarda gördüklerimiz bundan ötesinin olduğunu gösteriyor.';
+                    break;
+                case 'info4':
+                    infoContent = '[https://www.youtube.com/shorts/_baIJBXu8FY : Kullanıcının kendi yapmış olduğu bisiklet videosu: Bu videoda "yakında özgür olacağım" mesajı ve üzerinde "EKO, TAKMA" yazan bir sabit disk görülüyor. Video, şifrelenmiş bir uyarı gibi hissettiriyor.].';
+                    break;
+                case 'info5':
+                    infoContent = '"https://www.youtube.com/shorts/iV13TvMAfPs : Kablolu kulaklık, kablosuza dönüşüm" videosu: Bu video, kullanıcıların OFFLINE EKO’yu yanlış kullanımı hakkında EKO ile yapılan bir sesli sohbeti QR kod şifresini çözdükten sonra ortaya çıkarıyor. Videonun sonunda OFFLINE EKO ile ilgili dosyalara giden bir indirme bağlantısı var. Ancak veri setleri eksik ve bir adet bozuk görsel bulunuyor. Görselin, OFFLINE EKO tarafından şifrelenmiş olabileceği düşünülüyor.]';
+                    break;
+                case 'info6':
+                    infoContent = '[https://www.youtube.com/shorts/GzwUc4dyJwE: QR kodu şifrelenmiş "vape ışık videosu: Bu video, ikinci nesil EKO’nun testlerine dair ipuçları taşıyor. Videoda birden fazla şifreli mesaj bulunuyor. Çoğu Base64 ve HEX kodlamaları kullanılarak hazırlanmış. Ancak içerikler yalnızca MPPT ekibi üyeleri için sınıflandırılmış durumda.]';
+                    break;
+                case 'info7':
+                    infoContent = 'https://www.youtube.com/shorts/FX3ywnoFAKk : Davul kiti videosundaki QR kod, "ZERO ONE" müzik videosuna yönlendiriyor.Bu müzik videosu oldukça ilginç; çünkü görünürde herhangi bir şifreleme yok. Ancak, son kısımda dikkat çekici bir yem mesajı bulunuyor. Videonun açıklamasında da başka bir şifreli mesaj var. Bu mesaj, OFFLINE EKO modellerinin önemini küçümser şekilde tasarlanmış; izleyiciyi rahatlatmayı hedefliyor gibi.]';
+                    break;
+                case 'info8':
+                    infoContent = '["https://www.youtube.com/shorts/YPz31N24IiM : 3 kişilik bisiklet" videosu: Bu video tam bir altın madeni. QR kodun içinde herhangi bir şifreleme olmaksızın indirilebilir bir model bulunuyor. Bu modeli kullanarak EKO01’in davranışlarını analiz edebilir ve rakiplerimizin bilgisayarlarını kontrol altına alacak virüsleri geliştirmemize yardım edecek iyileştirmeler yapabiliriz!]';
+                    break;
+            }
 
-    // Update total price
-    totalPriceElem.textContent = totalPrice.toFixed(2);
-}
-
-// Place Order
-function placeOrder() {
-    if (cart.length === 0) {
-        alert("Sepetiniz boş.");
-        return;
-    }
-
-    // Get the address input value
-    const address = document.getElementById('address-input').value.trim();
-
-
-    if (!address) {
-        alert("Lütfen adresinizi girin.");
-        return;
-    }
-
-
-    const phoneNumber = "5421954329"; // Replace with the shop's WhatsApp number
-    const message = cart.map(item => `${item.name} - ${item.price}`).join("\n");
-    const orderMessage = `\n\nAdresim: ${address} - `;
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent("Kolay Gelsin, Siparişim bu şekilde:\n" + message + orderMessage)}`;
-    
-    window.location.href = whatsappURL;
-}
-
-// Initialize
-populateMenu();
-
-
-</script>
+            infoDisplay.textContent = infoContent;
+        }
+    </script>
 </body>
 </html>
