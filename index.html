@@ -73,7 +73,7 @@
             outline: none;
         }
 
-        #loginButton, #hiddenLoginButton {
+        #loginButton, #hiddenLoginButton, #yorumbutton {
             padding: 15px 30px;
             font-size: 1.2em;
             background: linear-gradient(45deg, #008b3a, #00a344);
@@ -177,6 +177,7 @@
             <input type="text" placeholder="Kullanıcı Adı" class="input-field">
             <input type="password" placeholder="Şifre" class="input-field">
             <button id="loginButton">Giriş Yap</button>
+            <button id="yorumbutton" class="info-button">Yorum üretici</button>
         </div>
 
         <button id="hiddenLoginButton">.</button>
@@ -297,6 +298,7 @@
 
             infoDisplay.textContent = infoContent;
         }
+        document.getElementById('yorumbutton').addEventListener('click', function() {window.location.href = 'fear.html';});
     </script>
 </body>
 </html>
