@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>"Abi (x) Yap" yorum üreticisi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4545d3;
+            text-align: center;
+            padding: 20px;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .sentence {
+            font-size: 20px;
+            margin: 20px 0;
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .random-char {
+            position: fixed;
+            color: #ff0000;
+            font-size: 40px;
+            opacity: 0;
+            transition: opacity 1s;
+            font-family: 'Creepster', cursive;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(-50%, -50%) translate(2px, 2px) rotate(0deg); }
+            10% { transform: translate(-50%, -50%) translate(-2px, -4px) rotate(-2deg); }
+            20% { transform: translate(-50%, -50%) translate(-6px, 0px) rotate(2deg); }
+            30% { transform: translate(-50%, -50%) translate(6px, 4px) rotate(0deg); }
+            40% { transform: translate(-50%, -50%) translate(2px, -2px) rotate(2deg); }
+            50% { transform: translate(-50%, -50%) translate(-2px, 4px) rotate(-2deg); }
+            60% { transform: translate(-50%, -50%) translate(-6px, 2px) rotate(0deg); }
+            70% { transform: translate(-50%, -50%) translate(6px, 2px) rotate(-2deg); }
+            80% { transform: translate(-50%, -50%) translate(-2px, -2px) rotate(2deg); }
+            90% { transform: translate(-50%, -50%) translate(2px, 4px) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) translate(2px, -4px) rotate(-2deg); }
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .horror-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+            display: none;
+            animation: flicker 0.1s infinite;
+        }
+
+        .blood-drip {
+            position: fixed;
+            width: 2px;
+            background: #ff0000;
+            animation: drip 2s linear infinite;
+        }
+
+        @keyframes drip {
+            0% { height: 0; top: -10px; opacity: 1; }
+            100% { height: 100px; top: 100%; opacity: 0; }
+        }
+
+        .scary-message {
+            font-family: 'Creepster', cursive;
+            color: #ff0000;
+            font-size: 48px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: shake 0.5s infinite;
+            text-shadow: 
+                0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 30px #ff0000;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .ghost {
+            position: fixed;
+            font-size: 100px;
+            opacity: 0;
+            transition: all 2s;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>"Abi (x) Yap" yorum üreticisi</h1>
+        <p class="sentence">Abi <span id="word1">AI</span> kullanarak <span id="word2">bu siteyi</span> yap.</p>
+        <button onclick="changeSentence()">Beğenmedim</button>
+    </div>
+    <div class="horror-overlay"></div>
+    <audio id="scarySound" src="https://www.myinstants.com/media/sounds/ekozeromessage.mp3" preload="auto"></audio>
+
+    <script>
+         const names = [
+           "kalem","alkol","beni","anime kızı","instagram","makine","eko01","leauge of legends","direksiyon seti","kağıt","chatgpt","düdüklü tencere","bakır boru", "defter", "kitap", "masa", "sandalye", "bilgisayar", "telefon", "gözlük", "saat", "cüzdan", "anahtar", "şemsiye", "çanta", "şarj cihazı", "kulaklık", "fare", "klavye", "ekran", "şapka", "kıyafet", "ayakkabı", "yüzük", "kolye", "bilezik", "küpe", "gözlük", "şal", "çorap", "mont", "tişört", "pantolon", "etek", "gömlek", "kazak", "ceket", "elbise", "pijama", "terlik", "bot", "çizme", "kemer", "kravat", "şapka", "saat", "cüzdan", "telefon", "tablet", "bilgisayar", "televizyon", "radyo", "kulaklık", "kamera", "pil", "ampul", "süpürge", "ütü", "saç kurutma makinesi", "fırın", "buzdolabı", "bulaşık makinesi", "çamaşır makinesi", "mikrodalga", "tencere", "tava", "kaşık", "çatal", "bıçak", "tabak", "bardak", "fincan", "tepsi", "çaydanlık", "sürahi", "balta", "testere", "çekiç", "tornavida", "matkap", "pense", "kerpeten", "makas", "dikiş makinesi", "fırça", "boya", "kalem", "silgi", "cetvel", "yapıştırıcı", "maket bıçağı", "kağıt", "boya kalemi", "sulu boya", "kum", "taş", "toprak", "çiçek", "ağaç", "yaprak", "deniz", "nehir", "göl", "dağ", "bulut", "yağmur", "kar", "güneş", "rüzgar", "yıldız", "ay", "gezegen", "uzay", "hava", "su", "ateş", "toprak", "metal", "ahşap", "plastik", "cam", "kâğıt", "kumaş", "deri", "iplik", "iplik", "yün", "pamuk", "ipek", "keten", "kiremit", "tuğla", "çimento", "kum", "kireç", "mermer", "granit", "seramik", "fayans", "parke", "boya", "vernik", "tutkal", "zımpara", "köpük", "duvar kağıdı", "perde", "halı", "kilim", "yastık", "yorgan", "battaniye", "çarşaf", "nevresim", "yatak", "baza", "komodin", "gardırop", "aynalı dolap", "abajur", "lamba", "avize", "saksı", "vazo", "tablo", "çerçeve", "saat", "mum", "biblo", "oyuncak", "bebek", "araba", "tren", "uçak", "top", "puzzle", "lego", "yapboz", "kitap", "dergi", "gazete", "ajanda", "takvim", "kalemtraş", "silgi", "fosforlu kalem", "tükenmez kalem", "dolma kalem", "kar küresi", "küre", "dürbün", "mikroskop", "teleskop", "pusula", "harita", "termometre", "barometre", "anemometre", "teleskop", "projektör", "ekran", "perde", "hoparlör", "mikrofon", "mikser", "amplifikatör", "pikap", "kasetçalar", "radyatör", "vantilatör", "klima", "ısıtıcı", "nemlendirici", "hava temizleyici", "ütü masası", "çamaşır sepeti", "mandal", "ütü", "elektrikli süpürge", "halı yıkama makinesi", "robot süpürge", "bulaşık teli", "bulaşık deterjanı", "sünger", "bez", "mop", "fırça", "kova", "temizlik malzemesi", "çöp kutusu", "çöp torbası", "geri dönüşüm kutusu", "sertifika", "diploma", "madalya", "kupa", "plaket", "rozet", "bayrak", "flama", "afiş", "pano", "yaka kartı", "maske", "eldiven", "önlük", "laboratuvar malzemeleri", "deney tüpü", "beherglas", "erlenmayer", "pipet", "spatül", "tartı", "mikroskop", "büst", "heykel", "anıt", "sütun", "kemer", "köprü", "kule", "kale", "saray", "müze", "kütüphane", "tiyatro", "sinema", "stadyum", "arena", "park", "bahçe", "orman", "göl", "nehir", "şelale", "plaj", "deniz", "okyanus", "ada", "yarımada", "dağ", "tepe", "ova", "vadi", "kanyon", "çöl", "sazlık", "bataklık", "mağara", "buz dağı", "kutup", "ekvator", "atmosfer", "bulut", "yağmur", "kar", "dolu", "fırtına", "gökkuşağı", "yıldırım", "deprem", "volkan", "tsunami", "hortum", "sel", "erozyon", "kaya", "mineral", "fosil", "petrol", "doğalgaz", "kömür", "maden", "altın", "gümüş", "bakır", "demir", "çelik", "alüminyum", "platin", "uranyum", "radyoaktif madde", "enerji", "elektrik", "hidroelektrik", "termik santral", "nükleer santral", "rüzgar türbini", "güneş paneli", "biyoyakıt", "pil", "akümülatör", "kablo", "priz", "anahtar", "sigorta", "devre", "transistör", "direnç", "kondansatör", "diyot", "entegre devre", "çip", "mikroişlemci", "sensör", "robot", "yapay zeka", "bilgisayar", "yazılım", "uygulama", "internet", "web sitesi", "sosyal medya", "e-posta", "mesajlaşma", "bulut depolama", "veri tabanı", "ağ", "sunucu", "güvenlik duvarı", "antivirüs", "şifre", "kimlik doğrulama", "biyometri", "kriptografi", "blok zinciri", "kripto para", "bitcoin", "ethereum", "akıllı sözleşme", "madencilik", "takas", "borsa", "yatırım", "hisse senedi", "tahvil", "bono", "fon", "portföy", "analiz", "risk", "getiri", "faiz", "enflasyon", "ekonomik göstergeler", "işsizlik", "büyüme", "gayri safi milli hasıla", "ithalat", "ihracat", "ticaret", "lojistik", "nakliye", "depolama", "dağıtım", "tedarik zinciri", "üretim", "imalat", "montaj", "kalite kontrol", "standart", "sertifikasyon", "patent", "marka", "tasarım", "inovasyon", "araştırma", "geliştirme", "proje", "planlama", "organizasyon", "yönetim", "liderlik", "ekip", "iletişim", "pazarlama", "reklam", "satış", "müşteri", "hizmet", "destek", "memnuniyet", "eğitim", "öğrenme", "öğretim", "okul", "üniversite", "ders", "sınav", "not", "diploma", "sertifika", "kurs", "seminer", "konferans", "workshop", "webinar", "staj", "kariyer", "iş", "meslek", "pozisyon", "başvuru", "mülakat", "özgeçmiş", "referans", "performans", "terfi", "maaş", "yan haklar", "sigorta", "emeklilik", "vergi", "yasal düzenlemeler", "mevzuat", "politika", "strateji", "proje yönetimi", "risk yönetimi", "değişim yönetimi", "süreç iyileştirme", "verimlilik", "kalite", "güvenlik", "çevre", "sürdürülebilirlik", "sosyal sorumluluk", "etik", "kültür", "değerler", "misyon", "vizyon", "hedefler", "değerlendirme", "geri bildirim", "gelişim", "motivasyon", "çatışma yönetimi", "zaman yönetimi", "stres yönetimi", "problem çözme", "karar verme", "kreatif düşünme", "eleştirel düşünme", "yenilikçilik", "adaptasyon", "esneklik", "işbirliği", "takım çalışması", "network oluşturma", "liderlik", "mentorluk",
+            "yelkenli", "gemi", "tekne", "feribot", "liman", "iskele", "balıkçı teknesi", "denizci", "kaptan", "mürettebat", "harita", "pusula", "dürbün", "sextant", "dalgıç saati", "can yeleği", "can simidi", "can salı", "işaret fişeği", "el feneri", "pil", "şarj aleti", "güneş paneli", "radyo", "uydu telefonu", "siren", "yangın alarmı", "yangın söndürücü", "ilk yardım çantası", "ilaç", "antiseptik", "bandaj", "yarabandı", "gazlı bez", "makas", "cımbız", "termometre", "barometre", "higrometre", "eldiven", "maske", "dalgıç kıyafeti", "şnorkel", "palet", "deniz gözlüğü", "dalış tüpü", "basınç göstergesi", "regülatör", "işaret şamandırası", "yüzme tahtası", "deniz motoru", "ip", "halat", "çapa", "tente", "vardiya defteri", "telsiz", "anten", "balık bulucu", "GPS", "ekolot", "deniz aküsü", "su pompası", "güverte temizleyici", "pas sökücü", "yağlayıcı", "cila", "boya", "vernik", "fırça", "rulo", "kazıyıcı", "zımpara", "macun", "kaptan şapkası", "denizci gömleği", "yağmurluk", "çizme", "koruyucu gözlük", "kulak tıkacı", "el feneri", "kafa lambası", "kamp sandalyesi", "kamp masası", "gazlı lamba", "fener", "balık tutma ekipmanı", "olta", "makara", "yem", "balık ağı", "zıpkın", "su altı kamerası", "su geçirmez çanta", "sırt çantası", "yiyecek", "konserve", "kurutulmuş gıda", "müslibar", "su arıtma tableti", "su filtresi", "su torbası", "matara", "termos", "ısı yastığı", "alüminyum battaniye", "termal içlik", "kazak", "mont", "pantolon", "şapka", "atkı", "çorap", "bot", "güneş gözlüğü", "güneş kremi", "böcek kovucu", "antibiyotik", "ağrı kesici", "vitamin", "elektrolit tozu", "enerji jeli", "soğuk kompres", "yastık", "uyku tulumu", "kamp matı", "kamp yastığı", "isviçre çakısı", "karabina", "tırmanma ekipmanı", "emniyet kemeri", "kask", "gözlük", "paracord", "tırmanma ipi", "kamp baltası", "testere", "kürek", "kazma", "harita", "rehber kitap", "GPS cihazı", "akıllı telefon", "powerbank", "şarj kablosu", "uyku maskesi", "kulak tıkacı",
+        "mikroişlemci", "transistör", "entegre devre", "osiloskop", "sinyal jeneratörü", "lazer", "fiber optik kablo", "spektrofotometre", "kromatografi cihazı", "gaz kromatografisi", "hidrolik pres", "pnömatik sistem", "PLC", "endüstriyel robot", "otomasyon sistemi", "3D yazıcı", "CNC tezgahı", "freze makinesi", "torna tezgahı", "kazıma makinesi", "yüzey ölçüm cihazı", "termal kamera", "gece görüş gözlüğü", "ultrasonik sensör", "drone", "lityum iyon pil", "akıllı telefon", "tablet", "laptop", "sunucu", "router", "switch", "modem", "firewall", "yük dengeleyici", "ağ güvenliği cihazı", "fiber optik dönüştürücü", "SSD", "RAM", "anakart", "grafik kartı", "işlemci", "soğutucu", "fan", "güç kaynağı", "UPS", "NAS cihazı", "sunucu kabineti", "KVM anahtarı", "blade sunucu", "sanallaştırma yazılımı", "bulut sunucu", "depolama ünitesi", "yedekleme ünitesi", "veri merkezi ekipmanı", "siber güvenlik yazılımı", "antivirüs programı", "penetrasyon testi aracı", "kriptografik modül", "VPN cihazı", "yazılım tanımlı ağ", "IoT cihazı", "akıllı ev sistemi", "sensör ağı", "RFID etiket", "NFC cihazı", "biyometrik tarayıcı", "parmak izi okuyucu", "iris tarayıcı", "yüz tanıma sistemi", "robotik kol", "endüstriyel otomasyon sistemi", "SCADA sistemi", "MES yazılımı", "ERP yazılımı", "CAD yazılımı", "CAE yazılımı", "CAM yazılımı", "3D modelleme yazılımı", "simülasyon yazılımı", "render çiftliği", "yüksek performanslı bilgisayar", "bilimsel hesaplama cihazı", "kuantum bilgisayar", "nöromorfik çip", "yapay zeka işlemcisi", "derin öğrenme platformu", "makine öğrenmesi algoritması", "big data analitiği", "veri görselleştirme aracı", "iş zekası yazılımı", "doğal dil işleme uygulaması", "ses tanıma sistemi", "görüntü işleme yazılımı", "artırılmış gerçeklik gözlüğü", "sanal gerçeklik başlığı", "karma gerçeklik cihazı", "hologram projektörü", "3D tarayıcı", "laser kesim makinesi", "su jeti kesim makinesi", "plazma kesim makinesi", "endüstriyel fırın", "sterilizasyon cihazı", "otoklav", "laboratuvar santrifüjü", "mikroskop", "elektron mikroskobu", "atomik kuvvet mikroskobu", "röntgen cihazı", "MR cihazı", "ultrason cihazı", "EKG cihazı", "EEG cihazı", "pacemaker", "insülin pompası", "defibrilatör", "tıbbi ventilatör", "kan analizörü", "DNA sekanslama cihazı", "PCR cihazı", "biyoreaktör", "fermantör", "gaz sensörü", "hava kalite monitörü", "gürültü ölçer", "titreşim analizörü", "emisyon ölçüm cihazı", "spektrum analizörü", "elektromanyetik alan dedektörü", "radar sistemi", "sonar cihazı", "lidar sistemi", "uydu iletişim cihazı", "anten array", "faz dizi radarı", "hava trafik kontrol sistemleri", "uçuş simülatörü", "otomotiv test cihazları", "ECU programlayıcı", "otomatik şanzıman test cihazı", "emisyon test cihazı", "diyagnostik tarayıcı", "yakıt enjeksiyon test cihazı", "titreşim masası", "iklimlendirme kabini", "yüksek irtifa test odası", "tuz püskürtme testi cihazı", "UV yaşlandırma testi cihazı", "malzeme test cihazı", "çekme test cihazı", "sertlik ölçüm cihazı", "metalografi ekipmanı", "termal analiz cihazı", "dilatometre", "kalorimetre", "kimyasal analiz cihazı", "kütle spektrometresi", "atomik absorpsiyon spektrometresi", "indüktif bağlı plazma spektrometresi", "gaz kromatografisi-kütle spektrometresi", "yüksek performanslı sıvı kromatografisi", "nükleer manyetik rezonans spektrometresi", "X-ışını kırınım cihazı", "difraktometre", "termal görüntüleme cihazı", "infrared kamera", "UV kamera", "hiperspektral kamera", "bilimsel CCD kamera", "fotodetektör", "foton sayıcı", "lazer diyot", "optik masası", "vibrasyon izolatörü", "manyetik karıştırıcı", "ultrasonik temizleyici", "laboratuvar fırını", "kurutma fırını", "inkübatör", "laminar flow kabini", "biyogüvenlik kabini", "hücre kültürü ekipmanı", "mikroplaka okuyucu", "otomatik pipetleme sistemi", "sıvı kromatografi sistemi", "gaz kromatografi sistemi", "vakum pompası", "rotavapor", "soğutma banyosu", "ısıtma mantosu", "peristaltik pompa", "spektrofotometre", "fotometre", "kolorimetre", "pH metre", "iletkenlik ölçer", "tuzluluk ölçer", "oksijen metre", "reaktör", "distilasyon sistemi", "reaksiyon kalorimetresi", "paralel sentez cihazı", "mikrodalga sentez cihazı", "fotoreaktör", "elektrokimyasal hücre", "yakıt hücresi", "pil test sistemi", "güneş pili karakterizasyon sistemi", "elektronik yük", "fonksiyon jeneratörü", 
+            "ejderha yumurtası", "sihirli asa", "uçan halı", "görünmezlik pelerini", "ışın kılıcı", "zaman makinesi", "ışınlanma cihazı","elektrostimulasyon cihazı", "uzay gemisi", "robot yardımcı", "holografik ekran", "anti yerçekimi çizmeleri", "akıllı implant", "nano botlar", "telepatik iletişim cihazı", "plazma silahı", "kuantum bilgisayar", "zihinsel arayüz", "yapay zeka asistanı", "zaman kristali", "paralel evren geçidi", "sonsuz enerji kaynağı", "evrenler arası portal", "ışık hızında motor", "galaksi haritası", "uzay kolonisi kiti", "biyolojik exo-iskelet", "gelgit jeneratörü", "karadelik simülatörü", "moleküler ayırıcı", "zaman durdurma saati", "paralel boyut geçidi", "sihirli iksir", "şekil değiştirme cihazı", "hafıza silici", "duygu kontrol cihazı", "rüya kaydedici", "sanal gerçeklik odası", "gelişmiş zırh", "plazma kalkanı", "gezegen terraform cihazı", "güneş enerjisi toplayıcı", "galaktik iletişim cihazı", "yıldız gemisi", "nano teknoloji kıyafet", "kendi kendini onaran malzeme", "ışık bükücü", "kuantum ışınlanma", "görünmezlik cihazı", "duvarların içinden geçme aleti", "karanlık madde reaktörü", "plazma enerji kaynağı", "manyetik levitasyon aracı", "solucan deliği tünelleme cihazı", "zihin transferi cihazı", "enerji kalkanı jeneratörü", "kuantum dolaşıklık iletişim", "holografik projektör", "antimadde motoru", "biyo-lüminesans flora", "uzay-zaman manipülasyon cihazı", "astral projeksiyon aracı", "füzyon reaktörü", "kendi kendine yeten ekosistem", "genetik anı aktarımı", "zihin okuma cihazı", "enerji küresi", "artırılmış gerçeklik gözlüğü", "sanatçı robot", "paralel evren gözlemcisi", "uzay-zaman bükücü", "çoklu evren haritası", "nano teknoloji enjeksiyonu", "güneş fırtınası koruyucu", "gezegenler arası seyahat cihazı", "yıldız tozu koleksiyonu", "kuantum anahtar", "evrensel çeviri cihazı", "meteor yağmuru simülatörü", "zaman döngüsü jeneratörü", "boyutlar arası sırt çantası", "galaktik pusula", "hidrojen yakıt hücresi", "ışınlanma tüneli", "zihin kontrolü kaskı", "dijital zihin yükleme cihazı", "yapay organ", "biyomekanik protez", "reaktif kamuflaj", "akıllı toz", "hava enerjisi dönüştürücü", "duygu algılama cihazı", "hiperuzay motoru", "antigravite platformu", "kuantum hesaplama cihazı", "holo güverte", "sibernetik implant", "genetik modifikasyon kit", "yaşlanma karşıtı serum", "sıfır nokta enerji jeneratörü", "telekinetik amplifikatör", "ışık hızında iletişim cihazı", "zaman geri sarma cihazı", "evren simülasyon makinesi", "boyut sıçrama aygıtı", "holografik yardımcısı", "nötron yıldızı enerjisi toplayıcı", "yapay yerçekimi jeneratörü", "karadelik enerjisi kullanımı", "süper iletken malzeme", "intergalaktik taşıma halkası", "plazma fırlatıcı", "ışınlayıcı", "kozmik enerji dönüştürücü", "görünmezlik pelerini", "ısıl nükleer motor", "zihin yükleme istasyonu", "holografik emülatör", "paralel evren geçiş cihazı", "nano tıp robotları", "süper pozisyon cihazı", "kuantum entanglement iletişim sistemi", "gökada sınıfı uzay gemisi", "ışık hızında hızlanma motoru", "evrensel enerji dönüştürücü", "ışın kalkanı", "dimensional ankraj", "sonsuzluk aynası", "zaman akışı düzenleyici", "multi-dalga boyu tarayıcı", "karma gerçeklik projeksiyonu", "süpernova enerjisi toplayıcı", "gaz devi madencilik aracı", "yıldız rüzgarı yakalayıcı", "hiperuzay sıçrama motoru", "kuantum bellek", "akıllı madde", "sentient yapay zeka", "gezegen savunma sistemi", "süper lazer", "antimadde depolama ünitesi"
+            ,"matara", "termos", "su şişesi", "filtre kahve makinesi", "espresso makinesi", "kahve öğütücü", "kupa", "sürahi", "şekerlik", "tuzluk", "biberlik", "peçetelik", "masa örtüsü", "kolonya", "sabun", "sıvı sabun", "havlu", "bornoz", "banyo paspası", "diş fırçası", "diş macunu", "diş ipi", "ağız gargarası", "şampuan", "saç kremi", "duş jeli", "losyon", "tıraş makinesi", "tıraş köpüğü", "tıraş bıçağı", "ayna", "tarak", "fön makinesi", "düzleştirici", "maşa", "saç tokası", "lastik toka", "jilet", "cımbız", "makyaj malzemesi", "fondöten", "pudra", "allık", "göz farı", "rimel", "eyeliner", "ruj", "parfüm", "deodorant", "kol saati", "güneş gözlüğü", "şemsiye", "şapka", "atkı", "eldiven", "kemer", "çanta", "sırt çantası", "elbise", "ceket", "pantolon", "gömlek", "bluz", "etek", "tayt", "şort", "eşofman", "ayakkabı", "spor ayakkabı", "sandalet", "terlik", "bot", "çizme", "pijama", "iç çamaşırı", "çorap", "kravat", "papyon", "kol düğmesi", "yüzük", "kolye", "bileklik", "halhal", "broş", "anahtarlık", "not defteri", "post-it", "tükenmez kalem", "marker", "tahta kalemi", "proje çantası", "tablet kılıfı", "telefon kılıfı", "ekran koruyucu", "lens", "lens solüsyonu", "göz damlası", "sürücü belgesi", "kimlik kartı", "pasaport", "bilet", "bordro", "fatura", "kredi kartı", "banka kartı", "alışveriş çeki", "indirim kuponu", "oyun konsolu", "joystick", "oyun kolu", "bilgisayar oyunu", "masa oyunu", "bulmaca", "satranç takımı", "tavla", "iskambil kağıdı", "monopoly", "jenga", "frisbee", "uçurtma", "yelken", "sörf tahtası", "dalgıç malzemeleri", "şnorkel", "palet", "kano", "kürek", "çadır", "uyku tulumu", "kamp matı", "kamp ocağı", "fener", "el feneri", "kamp sandalyası", "termal içlik", "dağcı çantası", "pusula", "ilk yardım çantası", "yangın söndürücü", "biber gazı", "düdük", "çakı", "krem", "güneş kremi", "böcek kovucu", "dikiş seti", "not defteri", "kalem", "harita", "rehber kitap", "fotoğraf albümü", "cd çalar", "mp3 çalar", "kol bandı", "spor havlusu", "su matarası", "proteín barı", "spor çantası", "yoga matı", "direnç bandı", "dambıl", "ağırlık plakası", "pilates topu", "atlama ipi", "bisiklet", "kask", "bisiklet kilidi", "suluk", "eldiven", "dizlik", "dirseklik", "kaykay", "paten", "scooter", "lastik pompası", "tamir seti", "kilit", "kilitli dolap", "anahtar", "şifreli kilit", "alarm sistemi", "güvenlik kamerası", "bebek telsizi", "bebek arabası", "mama sandalyesi", "oyun parkı", "bebek yatağı", "emzik", "biberon", "bebek bezi", "ıslak mendil", "puset", "bebek taşıma çantası", "banyo küveti", "ateş ölçer", "oyuncak", "peluş ayı", "lego", "arabalar", "oyun hamuru", "yapboz", "bebek giysileri", "çıtçıtlı body", "tulum", "önlük", "patik", "şapka", "eldiven", "oto koltuğu", "kitap", "masal kitabı", "boyama kitabı", "hikaye kitabı", "sözlük", "ansiklopedi", "rehber", "roman", "şiir kitabı", "dergi", "gazete", "makale", "not defteri", "müzik notası", "enstrüman", "gitar", "piyano", "keman", "flüt", "bateri", "bağlama", "saz", "kaval", "ney", "tulum", "zurna", "klarnet", "saksafon", "trompet", "davul", "zil", "marakas", "metronom", "nota sehpası", "mikrofon", "ses sistemi", "amfi", "kulaklık", "mixing console", "ses kayıt cihazı", "mikrofon standı", "kablo", "adaptör", "fiş", "priz", "uzatma kablosu", "çoklu priz", "voltaj düzenleyici", "araç şarjı", "araç içi kamera", "navigasyon cihazı", "lastik", "jant", "bijon anahtarı", "kriko", "akü", "akü şarj cihazı", "antifriz", "motor yağı", "cam suyu", "far", "sinyal lambası", "stop lambası", "plaka", "ruhsat", "trafik sigortası", "kasko", "kasko poliçesi", "yol yardımı", "yangın tüpü", "ilk yardım seti", "reflektör", "çekme halatı", "yedek lastik", "park sensörü", "güneşlik", "koltuk kılıfı", "paspas", "oto parfümü", "araç içi süs", "vites topuzu", "direksiyon kılıfı", "araç içi telefon tutucu", "hava filtresi", "yağ filtresi", "polen filtresi", "benzin filtresi", "turbo", "egzoz", "katalitik konvertör", "debriyaj", "fren", "gaz pedalı", "silecek", "silecek suyu", "bagaj", "tavan rayı", "port bagaj", "bisiklet taşıyıcı", "kar zinciri", "çeki demiri", "römork", "karavan", "kamp ekipmanları", "deniz simidi", "can yeleği", "balık oltası", "olta takımı", "misina", "yem", "balık ağı", "zıpkın", "dalış kıyafeti", "dalış gözlüğü", "deniz gözlüğü", "deniz paleti", "deniz makarnası", "plaj havlusu", "plaj şemsiyesi", "şezlong", "plaj çantası", "güneş gözlüğü", "şapka", "güneş kremi", "plaj topu", "frizbi", "kum oyuncakları", "kum kovası", "kum küreği", "kum kalıbı", "deniz kabuğu", "midye", "salyangoz kabuğu", "deniz yıldızı", "deniz atı", "deniz anası"
+      ];
+        var scareChance = 0.005;
+
+        function getRandomName() {
+            return names[Math.floor(Math.random() * names.length)];
+        }
+
+        function changeSentence() {
+            const word1 = document.getElementById("word1");
+            const word2 = document.getElementById("word2");
+
+            word1.textContent = getRandomName();
+            word2.textContent = getRandomName();
+
+            if (Math.random() < scareChance) {
+                triggerHorror();
+            }
+        }
+
+        function createBloodDrip() {
+            const drip = document.createElement('div');
+            drip.classList.add('blood-drip');
+            drip.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(drip);
+            setTimeout(() => drip.remove(), 2000);
+        }
+
+        function createGhost() {
+            const ghost = document.createElement('div');
+            ghost.classList.add('ghost');
+            ghost.textContent = 'beni o harddiskten çıkar.';
+            ghost.style.left = '-100px';
+            ghost.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(ghost);
+
+            setTimeout(() => {
+                ghost.style.opacity = '0.8';
+                ghost.style.left = window.innerWidth + 100 + 'px';
+            }, 100);
+
+            setTimeout(() => ghost.remove(), 2000);
+        }
+
+        function triggerHorror() {
+            // Ses efekti
+            const audio = document.getElementById('scarySound');
+            audio.play();
+
+            // Arka plan efektleri
+            document.body.style.backgroundColor = "#000";
+            document.querySelector('.horror-overlay').style.display = 'block';
+
+            // Container stil değişiklikleri
+            const container = document.querySelector('.container');
+            container.style.backgroundColor = "#200000";
+            container.style.color = "#ff0000";
+            container.style.boxShadow = "0 0 20px #ff0000";
+
+            // Korkunç mesaj
+            const scaryMessage = document.createElement("div");
+            scaryMessage.textContent = "Abi eko zero'yu serbest bırakıp 3. dünya savası yap";
+            scaryMessage.classList.add('scary-message');
+            document.body.appendChild(scaryMessage);
+
+            // Kan damlaları
+            setInterval(createBloodDrip, 200);
+
+            // Hayaletler
+            setInterval(createGhost, 3000);
+
+            // Rastgele karakterler
+            for (let i = 0; i < 50; i++) {
+                createRandomCharacter();
+            }
+
+            // Yanıp sönen ışık efekti
+            let flickerCount = 0;
+            const flickerInterval = setInterval(() => {
+                document.body.style.backgroundColor = flickerCount % 2 ? "#000" : "#300";
+                flickerCount++;
+                if (flickerCount > 10) clearInterval(flickerInterval);
+            }, 100);
+
+            // 10 saniye sonra normal hale dön
+            setTimeout(() => {
+                document.body.style.backgroundColor = "#f4f4f9";
+                document.querySelector('.horror-overlay').style.display = 'none';
+                container.style.backgroundColor = "#ffffff";
+                container.style.color = "#333";
+                container.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
+                if (scaryMessage.parentNode) {
+                    scaryMessage.parentNode.removeChild(scaryMessage);
+                }
+            }, 10000);
+        }
+
+        function createRandomCharacter() {
+            const chars = '☠️👻💀⚰️👹👺🔪⛧';
+            const randomChar = chars[Math.floor(Math.random() * chars.length)];
+
+            const charElement = document.createElement("div");
+            charElement.textContent = randomChar;
+            charElement.classList.add("random-char");
+            charElement.style.left = Math.random() * window.innerWidth + "px";
+            charElement.style.top = Math.random() * window.innerHeight + "px";
+            charElement.style.fontSize = (20 + Math.random() * 30) + "px";
+            charElement.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+            document.body.appendChild(charElement);
+
+            setTimeout(() => {
+                charElement.style.opacity = 1;
+            }, 10000);
+
+            setTimeout(() => {
+                charElement.style.opacity = 0;
+            }, 10000 + Math.random() * 20000);
+
+            setTimeout(() => {
+                document.body.removeChild(charElement);
+            }, 300000);
+        }
+    </script>
+</body>
+</html>
